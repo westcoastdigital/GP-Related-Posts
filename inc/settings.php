@@ -59,6 +59,14 @@ function gp_related_settings_init(  ) {
 	);
     
     add_settings_field( 
+		'gp_related_thumbnail_size', 
+		__( 'Thumbnail Size', 'generatepress' ), 
+		'gp_related_thumbnail_size_render', 
+		'generateRelatedPosts', 
+		'gp_related_generateRelatedPosts_section' 
+	);
+    
+    add_settings_field( 
 		'gp_related_position', 
 		__( 'Related Posts Position', 'generatepress' ), 
 		'gp_related_position_render', 
@@ -120,10 +128,28 @@ function gp_related_position_render(  ) {
 
 }
 
+function gp_related_thumbnail_size_render(  ) { 
+
+	$options = get_option( 'gp_related_settings' );
+	$sizes = get_intermediate_image_sizes();
+	?>
+	<select name='gp_related_settings[gp_related_thumbnail_size]'>
+		<?php
+		foreach ( $sizes as $size ) { ?>
+			<option value='<?php echo $size; ?>' <?php selected( $options['gp_related_thumbnail_size'], $size ); ?>><?php echo $size; ?></option>
+		<?php } ?>
+	</select>
+
+<?php
+
+}
+
 
 function gp_related_settings_section_callback(  ) { 
 
 	//echo __( 'Define the heading (defaults to Related Posts) and how many posts to show', 'generatepress' );
+	$options = get_option( 'gp_related_settings' );
+
 
 }
 

@@ -22,11 +22,20 @@ function gp_related_posts_output() {
             $postCount = $options['gp_related_posts_count'];
             $excerpt = $options['gp_related_excerpt'];
             $thumbnail = $options['gp_related_thumbnail'];
+            $size = $options['gp_related_thumbnail_size'];
+            $date = apply_filters( 'generate_post_date', true );
+		    $author = apply_filters( 'generate_post_author', true );
 
             if ( $postCount ) {
                 $count = $options['gp_related_posts_count'];
             } else {
                 $count = 5;
+            }
+
+            if ( $size ) {
+                $thumbnailSize = $options['gp_related_thumbnail_size'];
+            } else {
+                $thumbnailSize = 'thumbnail';
             }
 
             if($heading) {
@@ -48,17 +57,34 @@ function gp_related_posts_output() {
             while ($related_posts->have_posts()) : $related_posts->the_post(); ?>
 
                 <article class="grid-container">
-                    <a rel="bookmark" href="<? the_permalink()?>" title="Permanent Link to <?php the_title_attribute(); ?>">
-                        <?php if ($thumbnail) { ?>
-                        <div class="thumbnail grid-25">
-                            <?php the_post_thumbnail(array(150,100)); ?>
-                        </div>
-                        <?php } ?>
-                        <div class="content grid-75">
+                    <?php if ($thumbnail) { ?>
+                        <a rel="bookmark" href="<?php the_permalink()?>" title="<?php the_title_attribute(); ?>">
+                            <div class="thumbnail grid-25">
+                                <?php the_post_thumbnail($thumbnailSize); ?>
+                            </div>
+                        </a>
+                    <?php } ?>
+                    <div class="content grid-75">
+                        <a rel="bookmark" href="<?php the_permalink()?>" title="<?php the_title_attribute(); ?>">
                             <?php the_title( '<h3 class="post-title">', '</h3>' ); ?>
-                            <?php if ($excerpt) { the_excerpt(); } ?>
+                        </a>
+                        <div class="post-meta grid-container">
+                            <?php if ( $author ) { ?>
+                                <div class="post-author grid-30">
+                                    <p>by <?php the_author_posts_link(); ?></p>
+                                </div>
+                            <?php } ?>
+                            <?php if ( $date ) { ?>
+                                <div class="post-date grid-35">
+                                    <p><i class="fa fa-clock-o"></i> <?php the_date('F n, Y'); ?></p>
+                                </div>
+                            <?php } ?>
+                            <div class="post-comments grid-30">
+                                <p><i class="fa fa-comment-o"></i> <?php comments_number( '0', '1', '%' ); ?></p>
+                            </div>
                         </div>
-                    </a>
+                        <?php if ($excerpt) { the_excerpt(); } ?>
+                    </div>
                 </article>
 
             <?php
