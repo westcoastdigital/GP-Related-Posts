@@ -159,7 +159,7 @@ function gp_related_options_page(  ) {
 	?>
 	<form action='options.php' method='post'>
 
-		<h2>GP Related Posts</h2>
+		<h2><?php echo __('GP Related Posts', 'generatepress'); ?></h2>
 
 		<?php
 		settings_fields( 'generateRelatedPosts' );
