@@ -49,7 +49,7 @@ function gp_related_posts_output() {
                 'tag__in' => array($first_tag),
                 'post__not_in' => array($post->ID),
                 'posts_per_page'=> $count,
-                'caller_get_posts'=> 1
+                'ignore_sticky_posts'=> 1
             );
 
             $related_posts = new WP_Query($args);
